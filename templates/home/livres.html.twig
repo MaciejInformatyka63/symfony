@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello{% endblock %}
+
+{% block body %}
+    {#{% for livre in livres %}
+        {{livre}}<br>
+    {% endfor %}#}
+    <table>
+        <tr>
+            <th>Titre</th>
+            <th>Quatrième</th>
+            <th>Date de parution</th>
+            <th>Emprunt possible ?</th>
+            <th>Auteur</th>
+        </tr>
+        {% for livre in livres %}
+            <tr>
+                <th> {{livre.getTitre()}} </th>
+                <th> {{livre.getQuatrieme()}} </th>
+                <th> {{livre.getDateParution()|date("m/d/Y")}} </th>
+                <th> {{livre.isEmpruntPossible() ? 'yes' : 'no'}} </th>
+                <th>
+                    {% for auteur in livre.getAuteur() %}
+                        {{auteur.getPrenom() ~ " " ~ auteur.getNom()}}
+                        <br>
+                        ({{auteur.getDateNaissance()|date("m/d/Y")}}
+                        -
+                        {{auteur.getNationalite().getLibelle()}}){% if loop.last != true %},<br>{% endif %}
+                        {% else %}
+                        Pas d'auteurs
+                    {% endfor %}
+                </th>
+            </tr>
+        {% else %}
+            Pas de livres
+        {% endfor %}
+    </table>
+{% endblock %}
