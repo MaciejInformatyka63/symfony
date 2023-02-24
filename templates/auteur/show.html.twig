@@ -23,6 +23,16 @@
                 <th>DateNaissance</th>
                 <td>{{ auteur.dateNaissance ? auteur.dateNaissance|date('Y-m-d') : '' }}</td>
             </tr>
+            <tr>
+                <th>Livres</th>
+                <td>
+                {% for livre in auteur.livres %}
+                    {{ livre }}{% if loop.last != true %},{% endif %}
+                    {% else %} Pas de livres
+                {% endfor %}
+                </td>
+            </tr>
+                
         </tbody>
     </table>
 

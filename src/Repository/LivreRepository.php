@@ -52,6 +52,16 @@ class LivreRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return Livre[] Returns an array of Livre objects
+     */
+    public function getQbLivreOrderByTitre()
+    {
+        return $this->createQueryBuilder('l')
+            ->orderBy('l.titre', 'ASC')
+            ;
+    }
+
 //    /**
 //     * @return Livre[] Returns an array of Livre objects
 //     */

@@ -3,6 +3,11 @@
 {% block title %}Auteur index{% endblock %}
 
 {% block body %}
+
+    {% for message in app.session.flashbag.get('info') %}
+        <p>Suppression : {{message}}</p>
+    {% endfor %}
+
     <h1>Auteur index</h1>
 
     <table class="table">
@@ -12,6 +17,7 @@
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>DateNaissance</th>
+                <th>livres</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +28,12 @@
                 <td>{{ auteur.nom }}</td>
                 <td>{{ auteur.prenom }}</td>
                 <td>{{ auteur.dateNaissance ? auteur.dateNaissance|date('Y-m-d') : '' }}</td>
+                <td>
+                    {% for livre in auteur.livres %}
+                        {{ livre }}{% if loop.last != true %},{% endif %}
+                    {% else %} Pas de livres
+                    {% endfor %}
+                </td>
                 <td>
                     <a href="{{ path('app_auteur_show', {'id': auteur.id}) }}">show</a>
                     <a href="{{ path('app_auteur_edit', {'id': auteur.id}) }}">edit</a>
@@ -36,4 +48,6 @@
     </table>
 
     <a href="{{ path('app_auteur_new') }}">Create new</a>
+    <br>
+    <a href="{{ path('app_home') }}">retour à l'accueil</a>
 {% endblock %}

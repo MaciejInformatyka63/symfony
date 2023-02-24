@@ -32,7 +32,7 @@ class HomeController extends AbstractController
     #[Route('/home/auteurs', name: 'app_auteur')]
     public function listerAuteur(AuteurRepository $auteurRepository, NationaliteRepository $nationaliteRepository): Response
     {
-        $auteurs = $auteurRepository->findOrderBy();
+        $auteurs = $auteurRepository->findAuteurOrderByNom();
         $nationaliteRepository->findAll();
         return $this->render('home/auteurs.html.twig', [
             'auteurs' => $auteurs,

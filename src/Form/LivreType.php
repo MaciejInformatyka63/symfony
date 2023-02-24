@@ -22,10 +22,11 @@ class LivreType extends AbstractType
                 )))
             ->add('dateParution', null, array("widget" => "single_text"))
             ->add('empruntPossible')
-            ->add('auteur', null, ["expanded" => true, "query_builder" => function(EntityRepository $er)
-            {
-                return $er->getQbAuteurOrderByNom();
-            }])
+            ->add('auteur', null, ["expanded" => true, "query_builder" =>
+                function(EntityRepository $er)
+                {
+                    return $er->getQbAuteurOrderByNom();
+                }])
         ;
 
         $builder->addEventListener(
@@ -40,6 +41,14 @@ class LivreType extends AbstractType
                             'Il faut au moins un auteur'
                         )
                     );
+                }
+                else if (count($data->getAuteur()) > 3) {
+                    $event->getForm()->get("auteur")
+                        ->addError(
+                            new \Symfony\Component\Form\FormError(
+                                'Il ne faut pas plus de 3 auteurs !'
+                            )
+                        );
                 }
             }
         );

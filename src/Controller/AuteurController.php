@@ -70,7 +70,13 @@ class AuteurController extends AbstractController
     public function delete(Request $request, Auteur $auteur, AuteurRepository $auteurRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$auteur->getId(), $request->request->get('_token'))) {
-            $auteurRepository->remove($auteur, true);
+            if (count($auteur->getLivres()) > 0) {
+                $request->getSession()->getFlashBag()->add('info', 'L\'auteur est rattaché à au moins un livre');
+            }
+            else {
+                $auteurRepository->remove($auteur, true);
+            }
+            
         }
 
         return $this->redirectToRoute('app_auteur_index', [], Response::HTTP_SEE_OTHER);

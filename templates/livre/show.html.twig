@@ -27,6 +27,21 @@
                 <th>EmpruntPossible</th>
                 <td>{{ livre.empruntPossible ? 'Yes' : 'No' }}</td>
             </tr>
+            <tr>
+                <th>Auteur(s)</th>
+                <td>
+                    {#% for auteur in livre.auteur %}
+                        {{ auteur.nom }} {{ auteur.prenom }} ({% time() - auteur.dateNaissance %}) {% if loop.last != true %},{% endif %}
+                    {% else %} Pas d'auteurs
+                    {% endfor %#}
+
+                    {% for auteur, age in ages %}
+                        {{ auteur }} ({{ age }} {% if age > 1 %}ans{% else %}an{% endif %})
+                    {% else %} Pas d'auteurs
+                    {% endfor %}
+                </td>
+
+            </tr>
         </tbody>
     </table>
 

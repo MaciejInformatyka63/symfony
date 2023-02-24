@@ -3,6 +3,11 @@
 {% block title %}Livre index{% endblock %}
 
 {% block body %}
+
+    {% for message in app.session.flashbag.get('modification') %}
+        <p>Message flash : {{message}}</p>
+    {% endfor %}
+
     <h1>Livre index</h1>
 
     <table class="table">
@@ -13,6 +18,7 @@
                 <th>Quatrieme</th>
                 <th>DateParution</th>
                 <th>EmpruntPossible</th>
+                <th>Auteur(s)</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -24,6 +30,12 @@
                 <td>{{ livre.quatrieme }}</td>
                 <td>{{ livre.dateParution ? livre.dateParution|date('Y-m-d') : '' }}</td>
                 <td>{{ livre.empruntPossible ? 'Yes' : 'No' }}</td>
+                <td>
+                    {% for auteur in livre.auteur %}
+                        {{ auteur }}{% if loop.last != true %},{% endif %}
+                    {% else %} Pas d'auteurs
+                    {% endfor %}
+                </td>
                 <td>
                     <a href="{{ path('app_livre_show', {'id': livre.id}) }}">show</a>
                     <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">edit</a>
@@ -38,4 +50,6 @@
     </table>
 
     <a href="{{ path('app_livre_new') }}">Create new</a>
+    <br>
+    <a href="{{ path('app_home') }}">retour à l'accueil</a>
 {% endblock %}

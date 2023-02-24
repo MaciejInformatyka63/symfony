@@ -17,4 +17,16 @@
         <li>Your template at <code><a href="{{ '/opt/lampp/htdocs/biblio/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
     </ul>
 </div>
+
+<div>
+    <ul>
+        <li><a href="{{ path('app_livre_index') }}"> Lien vers les livres </a></li>
+        <li><a href="{{ path('app_auteur_index') }}"> Lien vers les auteurs </a></li>
+        <li><a href="{{ path('app_emprunt_index') }}"> Lien vers les emprunts </a></li>
+        <li><a href="{{ path('app_register') }}"> s'inscrire </a></li>
+        <li><a href="{{ path('app_login') }}"> se connecter </a></li>
+        <li><a href="{{ path('app_logout') }}"> se déconnecter </a></li>
+    </ul>
+</div>
+
 {% endblock %}

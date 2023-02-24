@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/livre')]
 class LivreController extends AbstractController
@@ -30,7 +31,7 @@ class LivreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $livreRepository->save($livre, true);
-
+            $request->getSession()->getFlashBag()->add('modification', 'livre créé');
             return $this->redirectToRoute('app_livre_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -43,8 +44,16 @@ class LivreController extends AbstractController
     #[Route('/{id}', name: 'app_livre_show', methods: ['GET'])]
     public function show(Livre $livre): Response
     {
+        $ages = array();
+        foreach ($livre->getAuteur() as $auteur) {
+            //$age = time() - mktime();
+            $ddn = $auteur->getDateNaissance()->getTimestamp();
+            $age = date('Y', time()) - date('Y',$ddn);
+            $ages[$auteur->getNom() . " " . $auteur->getPrenom()] = $age;
+        }
         return $this->render('livre/show.html.twig', [
             'livre' => $livre,
+            'ages' => $ages,
         ]);
     }
 
@@ -56,7 +65,7 @@ class LivreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $livreRepository->save($livre, true);
-
+            $request->getSession()->getFlashBag()->add('modification', 'livre modifié');
             return $this->redirectToRoute('app_livre_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -70,6 +79,7 @@ class LivreController extends AbstractController
     public function delete(Request $request, Livre $livre, LivreRepository $livreRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$livre->getId(), $request->request->get('_token'))) {
+            $request->getSession()->getFlashBag()->add('modification', 'livre créé');
             $livreRepository->remove($livre, true);
         }
 
